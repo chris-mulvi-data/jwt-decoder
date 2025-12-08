@@ -10,7 +10,7 @@ import (
 // PrintItems iterates over a slice of key/value pairs and prints
 // them to the terminal
 func PrintItems(heading string, items []types.KV) error {
-	fmt.Printf("%s%s%s:\n", Yellow, heading, Default)
+	fmt.Printf("\n%s%s%s:\n", Yellow, heading, Default)
 	for _, item := range items {
 		fmt.Printf("\t%s: ", item.Key)
 		PrintValueWithColorByType(item.Value)
@@ -21,7 +21,7 @@ func PrintItems(heading string, items []types.KV) error {
 
 // PrintStringWithHeading prints a single string value with a heading
 func PrintStringWithHeading(heading, value string) {
-	fmt.Printf("%s%s%s:\n", Yellow, heading, Default)
+	fmt.Printf("\n%s%s%s:\n", Yellow, heading, Default)
 	fmt.Print("\t")
 	PrintValueWithColorByType(value)
 }
@@ -35,19 +35,19 @@ func PrintValueWithColorByType(value any) {
 
 	switch val := value.(type) {
 	case string:
-		fmt.Printf("%s%s%s", Cyan, val, Default)
+		fmt.Printf("\t%s%s%s", Cyan, val, Default)
 	case float64:
 		// NOTE: float gets printed as an int since this is probably an epoch
 		// timestamp when found in a JWT may have to rethink this at some
 		// point to pre-process certain fields into the right context
-		fmt.Printf("%s%d%s", Magenta, int(val), Default)
+		fmt.Printf("\t%s%d%s", Magenta, int(val), Default)
 	case float32:
 		// NOTE: float gets printed as an int since this is probably an epoch
 		// timestamp when found in a JWT may have to rethink this at some
 		// point to pre-process certain fields into the right context
-		fmt.Printf("%s%d%s", Magenta, int(val), Default)
+		fmt.Printf("\t%s%d%s", Magenta, int(val), Default)
 	case int:
-		fmt.Printf("%s%d%s", Magenta, val, Default)
+		fmt.Printf("\t%s%d%s", Magenta, val, Default)
 	case []any:
 		PrintSliceItems(val)
 
@@ -61,8 +61,11 @@ func PrintValueWithColorByType(value any) {
 // PrintSliceItems iterates over a slice and calls the PrintValuesWithColorByType function
 // to print the items with the correct color coding for that type
 func PrintSliceItems(items []any) {
-	for _, item := range items {
-		fmt.Print("\t") // indent before each slice item
+	for i, item := range items {
+		if i > 0 {
+			fmt.Print("\t") // tab after first item for alignment
+		}
+		// fmt.Print("\t") // indent before each slice item
 		PrintValueWithColorByType(item)
 		fmt.Print("\n") // move to next line
 	}
