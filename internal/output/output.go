@@ -9,13 +9,21 @@ import (
 
 // PrintItems iterates over a slice of key/value pairs and prints
 // them to the terminal
-func PrintItems(items []types.KV) error {
+func PrintItems(heading string, items []types.KV) error {
+	fmt.Printf("%s%s%s:\n", Yellow, heading, Default)
 	for _, item := range items {
-		fmt.Printf("%s: ", item.Key)
+		fmt.Printf("\t%s: ", item.Key)
 		PrintValueWithColorByType(item.Value)
 		fmt.Print("\n")
 	}
 	return nil
+}
+
+// PrintStringWithHeading prints a single string value with a heading
+func PrintStringWithHeading(heading, value string) {
+	fmt.Printf("%s%s%s:\n", Yellow, heading, Default)
+	fmt.Print("\t")
+	PrintValueWithColorByType(value)
 }
 
 // PrintValueWithColorByType will print an item to the terminal with

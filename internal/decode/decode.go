@@ -16,6 +16,7 @@ func DecodeToken(rawToken string) (types.DecodedToken, error) {
 	var err error = nil
 	var decodedToken types.DecodedToken
 
+	rawToken = strings.Trim(rawToken, " ")
 	// split the raw token into the header, payload, and signature parts
 	tokenParts := strings.Split(rawToken, ".")
 	if len(tokenParts) != 3 {
