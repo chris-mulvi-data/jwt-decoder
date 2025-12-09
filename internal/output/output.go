@@ -33,26 +33,32 @@ func PrintStringWithHeading(heading, value string) {
 // is then called from those functions to act on the contained objects.
 func PrintValueWithColorByType(value any) {
 
+	fmt.Print("\t") // tab indent before output
+
 	switch val := value.(type) {
 	case string:
-		fmt.Printf("\t%s%s%s", Cyan, val, Default)
+		fmt.Printf("%s%s%s", Cyan, val, Default)
+
 	case float64:
 		// NOTE: float gets printed as an int since this is probably an epoch
 		// timestamp when found in a JWT may have to rethink this at some
 		// point to pre-process certain fields into the right context
-		fmt.Printf("\t%s%d%s", Magenta, int(val), Default)
+		fmt.Printf("%s%d%s", Magenta, int(val), Default)
+
 	case float32:
 		// NOTE: float gets printed as an int since this is probably an epoch
 		// timestamp when found in a JWT may have to rethink this at some
 		// point to pre-process certain fields into the right context
-		fmt.Printf("\t%s%d%s", Magenta, int(val), Default)
+		fmt.Printf("%s%d%s", Magenta, int(val), Default)
+
 	case int:
-		fmt.Printf("\t%s%d%s", Magenta, val, Default)
+		fmt.Printf("%s%d%s", Magenta, val, Default)
+
 	case []any:
 		PrintSliceItems(val)
 
 	default:
-		fmt.Printf("default: %v -> %t", val, val)
+		fmt.Printf("%v\n", val)
 
 	}
 
@@ -69,4 +75,10 @@ func PrintSliceItems(items []any) {
 		PrintValueWithColorByType(item)
 		fmt.Print("\n") // move to next line
 	}
+}
+
+// PrintError prints a nice and pretty version of an error message
+func PrintError(err error) {
+
+	fmt.Printf("%sERROR:%s %s%s%s\n", Red, Default, Red, err, Default)
 }

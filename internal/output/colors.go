@@ -4,6 +4,7 @@ type Color string
 
 const (
 	Default Color = "\033[0m"
+	Bold    Color = "\033[1m"
 	Black   Color = "\033[30m"
 	Gray    Color = "\033[90m"
 	Red     Color = "\033[91m"
