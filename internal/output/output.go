@@ -9,13 +9,23 @@ import (
 
 // PrintItems iterates over a slice of key/value pairs and prints
 // them to the terminal
-func PrintItems(heading string, items []types.KV) error {
+func PrintItems(heading string, item any) error {
 	fmt.Printf("\n%s%s%s:\n", Yellow, heading, Default)
-	for _, item := range items {
-		fmt.Printf("\t%s: ", item.Key)
-		PrintValueWithColorByType(item.Value)
-		fmt.Print("\n")
+	switch items := item.(type) {
+	case []types.KV:
+		for _, item := range items {
+			fmt.Printf("\t%s: ", item.Key)
+			PrintValueWithColorByType(item.Value)
+			fmt.Print("\n")
+		}
+
+	case string:
+		PrintValueWithColorByType(item)
+
+	default:
+		return fmt.Errorf("unsupported item type for PrintItems")
 	}
+
 	return nil
 }
 
@@ -41,14 +51,14 @@ func PrintValueWithColorByType(value any) {
 
 	case float64:
 		// NOTE: float gets printed as an int since this is probably an epoch
-		// timestamp when found in a JWT may have to rethink this at some
-		// point to pre-process certain fields into the right context
+		//       timestamp when found in a JWT may have to rethink this at some
+		//       point to pre-process certain fields into the right context
 		fmt.Printf("%s%d%s", Magenta, int(val), Default)
 
 	case float32:
 		// NOTE: float gets printed as an int since this is probably an epoch
-		// timestamp when found in a JWT may have to rethink this at some
-		// point to pre-process certain fields into the right context
+		//       timestamp when found in a JWT may have to rethink this at some
+		//       point to pre-process certain fields into the right context
 		fmt.Printf("%s%d%s", Magenta, int(val), Default)
 
 	case int:

@@ -13,6 +13,14 @@ type KV struct {
 	Value any
 }
 
+// RawToken represents the raw components of a JWT token
+type RawToken struct {
+	Header    string
+	Payload   string
+	Signature string
+}
+
+// DecodedToken represents the decoded components of a JWT token
 type DecodedToken struct {
 	Header    []KV
 	Payload   []KV

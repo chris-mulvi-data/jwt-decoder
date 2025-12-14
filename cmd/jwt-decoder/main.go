@@ -20,6 +20,7 @@ func main() {
 		return
 	}
 
+	// get the token string either from user prompt or command line argument
 	if opts.ShouldPrompt {
 		token, err = input.GetTokenFromUser("Enter JWT")
 		if err != nil {
@@ -30,15 +31,17 @@ func main() {
 		token = opts.TokenString
 	}
 
+	// decode the token
 	decoded, err := decode.DecodeToken(token)
 	if err != nil {
 		output.PrintError(err)
 		return
 	}
 
+	// print the decoded token components
 	output.PrintItems("Header", decoded.Header)
 	output.PrintItems("Payload", decoded.Payload)
-	output.PrintStringWithHeading("Signature", decoded.Signature)
-	fmt.Print("\n") // add a space before the next terminal prompt
+	output.PrintItems("Signature", decoded.Signature)
+	fmt.Println() // add a space before the next terminal prompt
 
 }
