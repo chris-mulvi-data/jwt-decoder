@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! command -v go > /dev/null; then
-    echo "go not installed"
+    echo "go is not installed"
     exit 1
 fi
 

@@ -1,3 +1,4 @@
+// Package types defines the custom types used across the application
 package types
 
 // Options are the CLI options parsed from user input
